@@ -1,1 +1,0 @@
-# node-express-mongo-bioler-plate-code
