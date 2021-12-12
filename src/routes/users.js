@@ -1,16 +1,12 @@
 const express = require('express')
-
+const userController = require('../controllers/user.controller')
 /**
  * Router 
  */
 let router = express.Router()
 
-router.get('/', function (req, res) {
-    res.send('All Users');
-});
+router.get('/', userController.index);
 
-router.get('/:id', function (req, res) {
-    res.send('View Blogs' + req.params.id);
-});
+router.get('/:id', userController.show);
 
 module.exports = router
