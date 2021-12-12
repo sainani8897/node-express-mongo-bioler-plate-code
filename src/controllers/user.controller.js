@@ -1,4 +1,6 @@
-const { User } = require('../database/Models')    
+const { User } = require('../database/Models')  
+const bcrypt = require('bcrypt');  
+const saltRounds = 10;
 
 exports.index = async function (req, res, next) {
 
@@ -29,4 +31,17 @@ exports.show = async function (req, res, next) {
     // } catch (e) {
     //     return res.status(400).json({ status: 400, message: e.message });
     // }
+}
+
+exports.create = async function (req, res, next) {
+   
+    User.create({
+        email:req.body.email,
+        name:req.body.email,
+        password:bcrypt.hashSync(req.body.password, saltRounds)
+    },function (err,userInstance) {
+      if(err) res.send(err.message);
+      res.send(userInstance);      
+    })
+    
 }

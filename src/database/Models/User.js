@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
@@ -7,15 +7,15 @@ const userSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    password:{
-        type:String,
+    password: {
+      type: String,
     },
-    name:{
-        type:String
+    name: {
+      type: String,
+      required: true,
     },
-   
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 userSchema.statics.findByLogin = async function (login) {
@@ -30,6 +30,13 @@ userSchema.statics.findByLogin = async function (login) {
   return user;
 };
 
-const User = mongoose.model('User', userSchema);
+userSchema.statics.register = async function (register) {
+  return await this.create(register, function (err, userInstance) {
+    if (err)  throw new Error('BROKEN');
+    return userInstance;
+  });
+};
 
-module.exports = User
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
