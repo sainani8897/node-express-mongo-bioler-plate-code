@@ -33,15 +33,13 @@ exports.show = async function (req, res, next) {
     // }
 }
 
-exports.create = async function (req, res, next) {
-   
+exports.create = async function (req, res, next) { 
     User.create({
         email:req.body.email,
-        name:req.body.email,
+        name:req.body.name,
         password:bcrypt.hashSync(req.body.password, saltRounds)
     },function (err,userInstance) {
       if(err) res.send(err.message);
       res.send(userInstance);      
     })
-    
 }

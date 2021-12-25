@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require('bcrypt');  
+const {UnauthorizedException} = require('../../exceptions')
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,17 +20,22 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.statics.findByLogin = async function (login) {
+userSchema.statics.findByLogin = async function ({email,password}) {
+  console.log(email);
   let user = await this.findOne({
-    username: login,
+    email
   });
-
-  if (!user) {
-    user = await this.findOne({ email: login });
+  
+  if (user) {
+    const match = await bcrypt.compare(password, user.password);
+    if(match) {
+       return user;
+    }
   }
 
-  return user;
-};
+  throw new UnauthorizedException("Invalid Login Email & Password do not match!")
+  
+}
 
 userSchema.statics.register = async function (register) {
   return await this.create(register, function (err, userInstance) {
