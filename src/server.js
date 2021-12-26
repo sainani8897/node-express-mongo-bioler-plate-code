@@ -1,22 +1,32 @@
 const express = require("express");
-const { port } = require('./config/config');
+const { port } = require("./config/config");
 const app = express();
 const routes = require("./routes");
 const models = require("./database/Models");
 const { connectDb } = require("./database/config");
 
-
-
 /** Body Parser */
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded  
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 /** Intilizing the routes here */
 app.use("/", routes);
 
+/** global error handler */
+app.use(function (err, req, res, next) {
+  /** Our Custom Exceptions Handled Here! */
+  if (err.status) {
+    res
+      .status(err.status)
+      .send({ status: err.status, message: err.message, error: err.error });
+  }
+  /** Defualt exception is caught here */
+  res.status(500).send({ status: 500, message: err.message, error: err });
+});
+
 /**
- * Server Starting at Port 
- * 
+ * Server Starting at Port
+ *
  */
 connectDb()
   .then(async () => {
