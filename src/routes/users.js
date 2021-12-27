@@ -9,6 +9,6 @@ router.get('/', userController.index);
 
 router.post('/', userController.create);
 
-router.get('/:id', userController.show);
+router.get('/:slug', userController.show);
 
 module.exports = router

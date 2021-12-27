@@ -24,6 +24,11 @@ app.use(function (err, req, res, next) {
   res.status(500).send({ status: 500, message: err.message, error: err });
 });
 
+app.use(function errorHandler (err, req, res, next) {
+  res.status(500)
+  res.render('error', { error: err })
+})
+
 /**
  * Server Starting at Port
  *
