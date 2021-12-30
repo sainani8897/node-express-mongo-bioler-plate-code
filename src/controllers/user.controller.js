@@ -11,7 +11,7 @@ exports.show = async function (req, res, next) {
   const slug = req.params.slug;
   try {
     var user = await User.findOne({ name: slug }).select("-password").exec();
-    if (user) res.send(user);
+    if (user) return res.send(user);
     else throw new NotFoundException("No Data Found!");
   } catch (error) {
     next(error);

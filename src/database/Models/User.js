@@ -16,12 +16,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    tokens:{
+      type: Array,
+    }
   },
   { timestamps: true }
 );
 
 userSchema.statics.findByLogin = async function ({ email, password }) {
-  console.log(email);
   let user = await this.findOne({
     email,
   });

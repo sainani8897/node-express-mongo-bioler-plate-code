@@ -16,18 +16,18 @@ app.use("/", routes);
 app.use(function (err, req, res, next) {
   /** Our Custom Exceptions Handled Here! */
   if (err.status) {
-    res
+   return res
       .status(err.status)
       .send({ status: err.status, message: err.message, error: err.error });
   }
   /** Defualt exception is caught here */
-  res.status(500).send({ status: 500, message: err.message, error: err });
+  return res.status(500).send({ status: 500, message: err.message, error: err });
 });
 
-app.use(function errorHandler (err, req, res, next) {
-  res.status(500)
-  res.render('error', { error: err })
-})
+// app.use(function errorHandler (err, req, res, next) {
+//   res.status(500)
+//   res.send('error', { error: err })
+// })
 
 /**
  * Server Starting at Port
