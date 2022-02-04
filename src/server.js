@@ -3,7 +3,7 @@ const { port } = require("./config/config");
 const app = express();
 const routes = require("./routes");
 const models = require("./database/Models");
-const { connectDb } = require("./database/config");
+const { connectDb } = require("./config/database");
 
 /** Body Parser */
 app.use(express.json()); // for parsing application/json
