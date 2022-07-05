@@ -16,9 +16,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    tokens:{
+    tokens: {
       type: Array,
-    }
+    },
+  },
+  {
+    toJSON: {
+      transform(doc, ret) {
+        delete ret.password;
+        delete ret.__v;
+        delete ret.tokens;
+      },
+    },
   },
   { timestamps: true }
 );

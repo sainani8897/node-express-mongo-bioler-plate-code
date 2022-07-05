@@ -31,3 +31,33 @@ exports.create = async function (req, res, next) {
     }
   );
 };
+
+exports.profile = async function (req, res, next) {
+  return res.send({
+    status: 200,
+    message: "My Profile",
+    data: req.user,
+  });
+};
+
+exports.changePassword = async function (req, res, next) {
+  try {
+    const current_password = req.body.current_password;
+    const new_password = await bcrypt.hashSync(req.body.new_password, 10)
+    const user = req.user;
+    const match = await bcrypt.compare(current_password, user.password);
+
+    if (match) {
+      user.password = new_password;
+      const res = await user.save();
+    }
+
+    return res.send({
+      status: 200,
+      message: "My Profile",
+      data: req.user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

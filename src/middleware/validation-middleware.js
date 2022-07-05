@@ -30,3 +30,17 @@ exports.login = (req, res, next) => {
     });
 }
 
+exports.changePassword = (req, res, next) => {
+    const validationRule = {
+        "current_password": "required",
+        "new_password": "required|string|min:6|confirmed",
+    }
+    validator(req.body, validationRule, {}, (err, status) => {
+        if (!status) {
+           throw new ValidationException("Validation Failed",err)
+        } else {
+            next();
+        }
+    });
+}
+
