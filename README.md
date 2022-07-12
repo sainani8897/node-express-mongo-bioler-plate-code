@@ -26,7 +26,7 @@ This entire Application is built on __Node.js express Framework__ and uses mongo
 * Install Composer dependencies
 
 ```bash
-run composer install
+npm install
 ```
 
 * Seed the database
